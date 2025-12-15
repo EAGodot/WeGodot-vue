@@ -215,7 +215,7 @@
                 </span>
               </li>
 
-              <!-- 加入我們 -->
+              <!-- 加入烏托邦 -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
                   <li
@@ -230,7 +230,7 @@
                     style="vertical-align: -3px"
                     src="../assets/svg/blog.svg"
                   />
-                  加入我們
+                  加入烏托邦
                   </li>
                 </span>
               </li>
@@ -351,10 +351,10 @@
                 <span class="mobile-menu-text">游戏</span>
               </li>
 
-              <!-- 加入我們 -->
+              <!-- 加入烏托邦 -->
               <li @click="$router.push({ path: '/survey', query: { mode: 'question' } })">
                 <img style="vertical-align: -3px" src="../assets/svg/blog.svg" />
-                <span class="mobile-menu-text">加入我們</span>
+                <span class="mobile-menu-text">加入烏托邦</span>
               </li>
             </ul>
           </div>
