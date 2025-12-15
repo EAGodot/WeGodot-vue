@@ -1,0 +1,87 @@
+{
+    "surveyTitle": "資格測試",
+    "surveyDescription": "感谢您参与我们的測試，您的反馈对我们非常重要",
+    "multipleChoiceQuestions": [
+      {
+        "id": 1,
+        "type": "single",
+        "text": "您对我们的产品整体满意度如何？",
+        "required": true,
+        "options": [
+          { "value": "very-satisfied", "text": "非常满意" },
+          { "value": "satisfied", "text": "满意" },
+          { "value": "neutral", "text": "一般" },
+          { "value": "unsatisfied", "text": "不满意" },
+          { "value": "very-unsatisfied", "text": "非常不满意" }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "multiple",
+        "text": "您最喜欢我们产品的哪些功能？（可多选）",
+        "required": false,
+        "options": [
+          { "value": "ui", "text": "界面设计" },
+          { "value": "performance", "text": "性能表现" },
+          { "value": "features", "text": "功能丰富度" },
+          { "value": "support", "text": "客户支持" },
+          { "value": "price", "text": "价格合理性" }
+        ]
+      },
+      {
+        "id": 3,
+        "type": "single",
+        "text": "您使用我们产品的频率是？",
+        "required": true,
+        "options": [
+          { "value": "daily", "text": "每天使用" },
+          { "value": "weekly", "text": "每周几次" },
+          { "value": "monthly", "text": "每月几次" },
+          { "value": "rarely", "text": "很少使用" }
+        ]
+      },
+      {
+        "id": 4,
+        "type": "multiple",
+        "text": "您通过什么渠道了解到我们的产品？（可多选）",
+        "required": false,
+        "options": [
+          { "value": "friend", "text": "朋友推荐" },
+          { "value": "ad", "text": "广告" },
+          { "value": "search", "text": "搜索引擎" },
+          { "value": "social", "text": "社交媒体" },
+          { "value": "other", "text": "其他" }
+        ]
+      }
+    ],
+    "essayQuestions": [
+      {
+        "id": 5,
+        "type": "essay",
+        "text": "您认为我们产品最大的优点是什么？",
+        "required": true,
+        "placeholder": "（如暫時無理想回答請將想法copy至本地，完善後一次回答）请详细描述您认为的产品优点..."
+      },
+      {
+        "id": 6,
+        "type": "essay",
+        "text": "您觉得我们产品有哪些需要改进的地方？",
+        "required": true,
+        "placeholder": "（如暫時無理想回答請將想法copy至本地，完善後一次回答）请提出您的宝贵建议..."
+      },
+      {
+        "id": 7,
+        "type": "essay",
+        "text": "您希望我们在未来版本中添加什么新功能？",
+        "required": false,
+        "placeholder": "（如暫時無理想回答請將想法copy至本地，完善後一次回答）请描述您期待的新功能..."
+      },
+      {
+        "id": 8,
+        "type": "essay",
+        "text": "您使用产品时遇到的最大困难是什么？",
+        "required": false,
+        "placeholder": "（如暫時無理想回答請將想法copy至本地，完善後一次回答）请描述您遇到的困难..."
+      }
+    ]
+  }
