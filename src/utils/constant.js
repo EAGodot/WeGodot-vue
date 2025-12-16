@@ -1,8 +1,8 @@
 
-// ¼ò»¯µÄ¶¯Ì¬ÅäÖÃ
+
 const isNgrok = typeof window !== 'undefined' && window.location.hostname.includes('ngrok')||window.location.hostname.includes('cpolar')||window.location.hostname.includes('org');
 const isDevelopment = process.env.NODE_ENV === 'development';
-// »ù´¡URLÅäÖÃ
+
 const baseConfig = isNgrok ? {
   baseURL: `${window.location.origin}/api`,
   webURL: window.location.origin,
@@ -34,76 +34,71 @@ export default {
   /*
   baseURL: "http://localhost:8000/api",
   webURL: "http://localhost:8000",
-  // baseURL: "http://www.monkey-papa.com/api", // ÏßÉÏµØÖ·¼ÓÉÏ/api
-  // webURL: "http://www.monkey-papa.com",  // ÏßÉÏµØÖ·
-  //ÉÏ´«Í¼Æ¬ÎÄ¼şµØÖ· elementUI:action
-  //qiniuUploadImages: "http://www.monkey-papa.com/api/resource/updateImage/", // ÄãµÄºó¶ËÏßÉÏµØÖ·¼ÓÉÏ/api/resource/updateImage/
-  qiniuUploadImages: "http://localhost:8000/api/resource/updateImage/", // ÄãµÄºó¶ËÏßÉÏµØÖ·¼ÓÉÏ/api/resource/updateImage/
-  //±íÇéµØÖ·,mdÍ¼Æ¬µØÖ·
-  //qiniuUploadEntrance: "http://www.monkey-papa.com/", // ÄãµÄÆßÅ£ÔÆ´æ´¢¿Õ¼äµÄÍâÁ´ÓòÃû
-  qiniuUploadEntrance: "http://localhost:8000/", // ÄãµÄÆßÅ£ÔÆ´æ´¢¿Õ¼äµÄÍâÁ´ÓòÃû
+  // baseURL: "http://www.monkey-papa.com/api", // ï¿½ï¿½ï¿½Ïµï¿½Ö·ï¿½ï¿½ï¿½ï¿½/api
+  // webURL: "http://www.monkey-papa.com",  // ï¿½ï¿½ï¿½Ïµï¿½Ö·
+
+  //qiniuUploadImages: "http://www.monkey-papa.com/api/resource/updateImage/", // ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ö·ï¿½ï¿½ï¿½ï¿½/api/resource/updateImage/
+  qiniuUploadImages: "http://localhost:8000/api/resource/updateImage/", // ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ö·ï¿½ï¿½ï¿½ï¿½/api/resource/updateImage/
+
+  //qiniuUploadEntrance: "http://www.monkey-papa.com/", // ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½Æ´æ´¢ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  qiniuUploadEntrance: "http://localhost:8000/", // ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½Æ´æ´¢ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   */
 
 
 
 
-
-
-  //Ê«´ÊÓïÂ¼
   hitokoto: "https://v1.hitokoto.cn",
   shehui: "https://api.oick.cn/yulu/api.php",
   jinrishici: "https://v1.jinrishici.com/all.json",
-  //Ä¿Â¼
   tocbot: "https://cdn.bootcdn.net/ajax/libs/tocbot/4.21.0/tocbot.min.js",
 
 
 
 
-
-
-
-  //ÊÓÆµµØÖ·
+  //è§†é¢‘åœ°å€
   favoriteVideo: "https://www.qiniuyun.monkey-papa.icu/avatar/nahida.mp4",
-  //°´Å¥ÑÕÉ«
+  //æŒ‰é’®é¢œè‰²
   before_color_1: "var(--blue13)",
   after_color_1: "linear-gradient(45deg, var(--red), var(--purple1))",
-  //ÆÀÂÛ·ÖÒ³ÑÕÉ« Î¢ÑÔ·ÖÒ³ÑÕÉ«
+  //è¯„è®ºåˆ†é¡µé¢œè‰² å¾®è¨€åˆ†é¡µé¢œè‰²
   commentPageColor: "var(--green6)",
-  userId: 9, // ²©¿ÍÖ÷ÈËµÄÓÃ»§id
-  //emojiº¬Òå
+  userId: 9, // åšå®¢ä¸»äººçš„ç”¨æˆ·id
+
+
+  //emojiå«ä¹‰
   emojiList: [
-    "Ë¥",
-    "±ÉÊÓ",
-    "ÔÙ¼û",
-    "Îæ×ì",
-    "ÃşÓã",
-    "·Ü¶·",
-    "°×ÑÛ",
-    "¿ÉÁ¯",
-    "ÖåÃ¼",
-    "¹ÄÕÆ",
-    "·³ÄÕ",
-    "ÍÂÉà",
-    "ÍÚ±Ç",
-    "Î¯Çü",
-    "»¬»ü",
-    "°¡Õâ",
-    "ÉúÆø",
-    "º¦Ğß",
-    "ÔÎ",
-    "ºÃÉ«",
-    "Á÷Àá",
-    "ÍÂÑª",
-    "Î¢Ğ¦",
-    "¿á",
-    "»µĞ¦",
-    "ÏÅ",
-    "´ó±ø",
-    "¿ŞĞ¦",
-    "À§",
-    "ßÚÑÀ",
+    "è¡°",
+    "é„™è§†",
+    "å†è§",
+    "æ‚å˜´",
+    "æ‘¸é±¼",
+    "å¥‹æ–—",
+    "ç™½çœ¼",
+    "å¯æ€œ",
+    "çš±çœ‰",
+    "é¼“æŒ",
+    "çƒ¦æ¼",
+    "åèˆŒ",
+    "æŒ–é¼»",
+    "å§”å±ˆ",
+    "æ»‘ç¨½",
+    "å•Šè¿™",
+    "ç”Ÿæ°”",
+    "å®³ç¾",
+    "æ™•",
+    "å¥½è‰²",
+    "æµæ³ª",
+    "åè¡€",
+    "å¾®ç¬‘",
+    "é…·",
+    "åç¬‘",
+    "å“",
+    "å¤§å…µ",
+    "å“­ç¬‘",
+    "å›°",
+    "å‘²ç‰™",
   ],
-  //´¿É«
+  //çº¯è‰²
   SolidColor: [
     "#f7f9fe",
     "#30303c",
@@ -122,7 +117,7 @@ export default {
     "#5cb3cc",
     "#93b5cf",
   ],
-  //½¥±ä
+  //æ¸å˜
   gradient: [
     "55deg, #0095c2 21%, #64E1C8 100%",
     "90deg, #ffd7e4 0%, #c8f1ff 100%",
@@ -133,73 +128,75 @@ export default {
     "25deg, #3e47d1, #8b5fb8, #ba7b9d, #df9980",
     "25deg, #0e5c71, #15828f, #19a9ae, #1ad3ce",
   ],
+
+  
   about: [
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA1.jpg",
-      tit: "Å®µÛ",
-      sub: "½íàşÅ®µÛ£¬ĞÂÉúºìÒÂ??",
+      tit: "å¥³å¸",
+      sub: "å·¾å¸¼å¥³å¸ï¼Œæ–°ç”Ÿçº¢è¡£ğŸ˜",
     },
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA2.jpg",
-      tit: "ĞÂ²»Á¼Ë§",
-      sub: "ÆúÌìµÀ£¬Ôñ°ÔµÀ??",
+      tit: "æ–°ä¸è‰¯å¸…",
+      sub: "å¼ƒå¤©é“ï¼Œæ‹©éœ¸é“ğŸ¥±",
     },
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA3.jpg",
-      tit: "ËÄ´óÊ¬×æ",
-      sub: "¸ãĞ¦Å®+¸ãĞ¦ÄĞ??",
+      tit: "å››å¤§å°¸ç¥–",
+      sub: "æç¬‘å¥³+æç¬‘ç”·ğŸ˜…",
     },
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA4.png",
-      tit: "ÕâÁ©»õ",
-      sub: "µ¼ÖÂÎÒÃ¿¼¯Æ¬Í·¶¼²»Ìø¹ı??",
+      tit: "è¿™ä¿©è´§",
+      sub: "å¯¼è‡´æˆ‘æ¯é›†ç‰‡å¤´éƒ½ä¸è·³è¿‡ğŸ˜‹",
     },
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA6.jpg",
-      tit: "°Â¹Ã",
-      sub: "ºÃÍÈ£¬Ö»ÄÜËµ±»´òµÄÕæ²Ò??",
+      tit: "å¥¥å§‘",
+      sub: "å¥½è…¿ï¼Œåªèƒ½è¯´è¢«æ‰“çš„çœŸæƒ¨ğŸ¤£",
     },
     {
       img: "https://www.qiniuyun.monkey-papa.icu/avatar/%E4%B8%8D%E8%89%AF%E4%BA%BA7.jpg",
-      tit: "ËæĞÄ",
-      sub: "(*^¨Œ^*)",
+      tit: "éšå¿ƒ",
+      sub: "(*^â–½^*)",
     },
   ],
   themeMapConfig: [
     {
-      title: "1. Í¼Æ¬£¨µçÄÔ£©",
-      collapseTitle: "²é¿´ÊÊÅäµçÄÔ¶Ë±³¾°",
+      title: "1. å›¾ç‰‡ï¼ˆç”µè„‘ï¼‰",
+      collapseTitle: "æŸ¥çœ‹é€‚é…ç”µè„‘ç«¯èƒŒæ™¯",
       handleVal: "pc",
       class: "box",
       dataList: [],
       style: "img",
     },
     {
-      title: "2. Í¼Æ¬£¨ÒÆ¶¯¶Ë£©",
-      collapseTitle: "²é¿´ÊÊÅäÒÆ¶¯¶Ë±³¾°",
+      title: "2. å›¾ç‰‡ï¼ˆç§»åŠ¨ç«¯ï¼‰",
+      collapseTitle: "æŸ¥çœ‹é€‚é…ç§»åŠ¨ç«¯èƒŒæ™¯",
       handleVal: "mobile",
       class: "box mobileBox",
       dataList: [],
       style: "img",
     },
     {
-      title: "3. ½¥±äÉ«",
-      collapseTitle: "²é¿´½¥±äÉ«±³¾°",
+      title: "3. æ¸å˜è‰²",
+      collapseTitle: "æŸ¥çœ‹æ¸å˜è‰²èƒŒæ™¯",
       handleVal: "gradient",
       class: "box",
       dataList: [],
       style: "gradient",
     },
     {
-      title: "4. ´¿É«",
-      collapseTitle: "²é¿´´¿É«±³¾°",
+      title: "4. çº¯è‰²",
+      collapseTitle: "æŸ¥çœ‹çº¯è‰²èƒŒæ™¯",
       handleVal: "solid",
       class: "box",
       dataList: [],
       style: "solid",
     },
   ],
-  //Ëæ»ú Î¢ÑÔÑÕÉ« ±êÇ©ÑÕÉ«
+  //éšæœº å¾®è¨€é¢œè‰² æ ‡ç­¾é¢œè‰²
   tree_hole_color: (function () {
     function getRandomColor() {
       return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${
