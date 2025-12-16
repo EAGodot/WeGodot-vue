@@ -99,6 +99,37 @@
                 </el-popover>
               </li>
 
+              <!-- AI"我" -->
+              <li>
+                <el-popover
+                  :visible-arrow="false"
+                  transition="el-zoom-in-center"
+                  close-delay="300"
+                  popper-class="mk-popper"
+                  placement="bottom"
+                  trigger="hover"
+                >
+                  <div class="mk-popover_item">
+                    <!-- 製作 -->
+                    <li @click="AI_Wo">
+                      <img
+                        style="vertical-align: -3px"
+                        src="../assets/svg/music.svg"
+                      />
+                      製作
+                    </li>
+                  </div>
+                  <span slot="reference" class="el-dropdown-link">
+                    <img
+                      style="vertical-align: -3px"
+                      src="../assets/svg/space.svg"
+                    />
+                    AI"我"
+                  </span>
+                </el-popover>
+              </li>
+
+              <!-- 屏蔽掉
               <!-- 文章 -->
               <li>
                 <el-popover
@@ -208,6 +239,10 @@
                   </span>
                 </el-popover>
               </li>
+
+              -->
+
+
 
               <li>
                 <span slot="reference" class="el-dropdown-link">
@@ -336,6 +371,15 @@
                 <span class="mobile-menu-text">我的</span>
               </li>
 
+
+
+              <li @click="AI_Wo">
+                <img style="vertical-align: -3px" src="../assets/svg/document.svg" />
+                <span class="mobile-menu-text">AI"我"</span>
+              </li>
+
+              
+              <!--
               <li @click="$router.push({ path: '/sort' })">
                 <img style="vertical-align: -3px" src="../assets/svg/document.svg" />
                 <span class="mobile-menu-text">文章</span>
@@ -345,6 +389,9 @@
                 <img style="vertical-align: -3px" src="../assets/svg/space.svg" />
                 <span class="mobile-menu-text">空间</span>
               </li>
+              -->
+
+
 
               <li @click="openPcGame">
                 <span style="font-size: 18px">🎮</span>
@@ -1298,6 +1345,18 @@ export default {
           });
         });
     },
+
+    AI_Wo() {
+      this.$notify({
+        title: "...!",
+        message: "功能開發中，敬請期待！！",
+        type: "success",
+        offset: 50,
+        position: "top-left",
+      });
+      document.body.contentEditable = "true";
+      this.editFlag = true;
+    },    
 
     EDIT() {
       if (this.editFlag) {
