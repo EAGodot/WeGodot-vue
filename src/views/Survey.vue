@@ -782,16 +782,22 @@ export default {
       }
     },
     
+
     getGuShi() {
-      const defaultPoems = [
-        "春风又绿江南岸，明月何时照我还。",
-        "人生若只如初见，何事秋风悲画扇。",
-        "海上生明月，天涯共此时。",
-        "会当凌绝顶，一览众山小。"
-      ];
-      const randomPoem = defaultPoems[Math.floor(Math.random() * defaultPoems.length)];
-      this.printerInfo = randomPoem;
+      let that = this;
+      let xhr = new XMLHttpRequest();
+      xhr.open("get", this.$constant.jinrishici);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          that.guShi = JSON.parse(xhr.responseText);
+          that.printerInfo = that.guShi.content;
+        }
+      };
+      xhr.send();
     }
+
+
+            
   }
 };
 </script>
@@ -1610,3 +1616,4 @@ body {
   }
 }
 </style>
+
