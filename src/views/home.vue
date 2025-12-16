@@ -130,7 +130,7 @@
               </li>
 
               <!-- 屏蔽掉
-              <!-- 文章 -->
+        
               <li>
                 <el-popover
                   :visible-arrow="false"
@@ -148,7 +148,7 @@
                     文章
                   </span>
                   <div class="mk-popover_item">
-                    <!-- 分类 -->
+             
                     <li @click="$router.push({ path: '/sort' })">
                       <img
                         style="vertical-align: -3px"
@@ -156,7 +156,7 @@
                       />
                       分类
                     </li>
-                    <!-- 标签 -->
+              
                     <li
                       @click="
                         $router.push({ path: '/tags', query: { labelId: 25 } })
@@ -172,7 +172,7 @@
                 </el-popover>
               </li>
 
-              <!-- 空间 -->
+       
               <li>
                 <el-popover
                   :visible-arrow="false"
@@ -183,7 +183,7 @@
                   trigger="hover"
                 >
                   <div class="mk-popover_item">
-                    <!-- 音乐 -->
+                
                     <li @click="$router.push({ path: '/funny' })">
                       <img
                         style="vertical-align: -3px"
@@ -191,7 +191,7 @@
                       />
                       幻音坊
                     </li>
-                    <!-- 藏宝阁 -->
+                  
                     <li @click="$router.push({ path: '/tools' })">
                       <img
                         style="vertical-align: -3px"
@@ -210,7 +210,7 @@
                 </el-popover>
               </li>
 
-              <!-- 社交 -->
+     
               <li>
                 <el-popover
                   :visible-arrow="false"
@@ -221,11 +221,11 @@
                   trigger="hover"
                 >
                   <div class="mk-popover_item">
-                    <!-- 留言厅 -->
+             
                     <li @click="$router.push({ path: '/message' })">
                       ✍🏻 <span>留言厅</span>
                     </li>
-                    <!-- 友链 -->
+             
                     <li @click="$router.push({ path: '/friend' })">
                       🎀 <span>友链</span>
                     </li>
@@ -377,19 +377,6 @@
                 <img style="vertical-align: -3px" src="../assets/svg/document.svg" />
                 <span class="mobile-menu-text">AI"我"</span>
               </li>
-
-              
-              <!--
-              <li @click="$router.push({ path: '/sort' })">
-                <img style="vertical-align: -3px" src="../assets/svg/document.svg" />
-                <span class="mobile-menu-text">文章</span>
-              </li>
-
-              <li @click="$router.push({ path: '/funny' })">
-                <img style="vertical-align: -3px" src="../assets/svg/space.svg" />
-                <span class="mobile-menu-text">空间</span>
-              </li>
-              -->
 
 
 
