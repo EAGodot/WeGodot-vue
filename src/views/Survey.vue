@@ -57,17 +57,6 @@
       <div class="survey-header">
         <h2>{{ surveyData.title }}</h2>
         <p>{{ surveyData.description }}</p>
-
-        <!--
-        <div class="survey-meta">
-          <span class="meta-item">创建者: {{ surveyData.created_by?.username || '系统' }}</span>
-          <span class="meta-item">已收集: {{ surveyData.response_count }} 份回答</span>
-          <span v-if="surveyData.end_date" class="meta-item">
-            截止时间: {{ formatDate(surveyData.end_date) }}
-          </span>
-        </div>
-        -->
-
       </div>
 
       <div class="questions-container">
@@ -79,8 +68,10 @@
         >
           <div class="question-header">
             <span class="question-number">Q{{ index + 1 }}</span>
-            <span class="question-text">{{ question.text }}</span>
-            <span v-if="question.required" class="required-mark">*</span>
+            <div class="question-text-container">
+              <span class="question-text">{{ question.text }}</span>
+              <span v-if="question.required" class="required-mark">*</span>
+            </div>
           </div>
           
           <div class="options-container">
@@ -96,8 +87,12 @@
                 :value="option.value"
                 v-model="question.answer"
                 @change="validateQuestion(question)"
+                class="option-input"
               >
-              <label :for="'q' + question.id + '-opt' + optIndex">{{ option.text }}</label>
+              <label :for="'q' + question.id + '-opt' + optIndex" class="option-label">
+                <span class="option-checkbox"></span>
+                <span class="option-text">{{ option.text }}</span>
+              </label>
             </div>
           </div>
           
@@ -112,8 +107,10 @@
         >
           <div class="question-header">
             <span class="question-number">Q{{ multipleChoiceQuestions.length + index + 1 }}</span>
-            <span class="question-text">{{ question.text }}</span>
-            <span v-if="question.required" class="required-mark">*</span>
+            <div class="question-text-container">
+              <span class="question-text">{{ question.text }}</span>
+              <span v-if="question.required" class="required-mark">*</span>
+            </div>
           </div>
           
           <!-- 回答按钮 -->
@@ -143,8 +140,9 @@
             type="checkbox"
             id="anonymous-submit"
             v-model="isAnonymous"
+            class="anonymous-checkbox"
           >
-          <label for="anonymous-submit">匿名提交</label>
+          <label for="anonymous-submit" class="anonymous-label">匿名提交</label>
         </div>
         <button class="submit-btn" @click="submitSurvey" :disabled="submitting">
           {{ submitting ? '提交中...' : '提交问卷' }}
@@ -155,11 +153,11 @@
       <el-dialog
         :title="currentEssayQuestion ? '回答: ' + currentEssayQuestion.text : ''"
         :visible.sync="showEssayDialog"
-        width="60%"
+        :width="dialogWidth"
         :append-to-body="true"
         destroy-on-close
         center
-        custom-class="essay-dialog"
+        custom-class="essay-dialog mobile-dialog"
       >
         <div class="essay-dialog-content">
           <!-- 评论框 -->
@@ -240,6 +238,7 @@ export default {
       currentEssayQuestion: null,
       essayAnswer: "",
       showEmoji: false,
+      isMobile: false,
       emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗', '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😬', '🙄', '😯', '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '😈', '👿', '👹', '👺', '🤡', '💩', '👻', '💀', '☠️', '👽', '👾', '🤖', '🎃', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾']
     };
   },
@@ -251,10 +250,12 @@ export default {
         : "请详细阐述您的观点...";
     },
     
+    dialogWidth() {
+      return this.isMobile ? '90%' : '60%';
+    },
+    
     // 创建 axios 实例
     api() {
-
-
       const constant = this.$constant || {}
       const mediaBaseURL = constant.webURL || window.location.origin
 
@@ -282,11 +283,23 @@ export default {
   },
 
   async created() {
+    this.checkMobile();
     await this.loadLatestSurvey();
     this.getGuShi();
   },
 
+  mounted() {
+    window.addEventListener('resize', this.checkMobile);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile);
+  },
+
   methods: {
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
+    },
 
     // 从服务器加载最新的活跃问卷
     async loadLatestSurvey() {
@@ -559,10 +572,10 @@ export default {
       // 构建消息内容 - 添加可滚动区域
       let messageContent = `
         <div style="text-align: center;">
-          <div style="font-size: 48px; color: ${scoreColor}; margin-bottom: 10px;">
+          <div style="font-size: ${this.isMobile ? '36px' : '48px'}; color: ${scoreColor}; margin-bottom: 10px;">
             ${score}分
           </div>
-          <div style="font-size: 18px; color: ${scoreColor}; margin-bottom: 20px;">
+          <div style="font-size: ${this.isMobile ? '16px' : '18px'}; color: ${scoreColor}; margin-bottom: 20px;">
             ${scoreLevel}
           </div>
           
@@ -580,7 +593,7 @@ export default {
               border-radius: 8px; 
               border-left: 4px solid ${scoreColor};
             ">
-              <div style="font-size: 14px; color: #606266; line-height: 1.6; white-space: pre-wrap;">
+              <div style="font-size: ${this.isMobile ? '13px' : '14px'}; color: #606266; line-height: 1.6; white-space: pre-wrap;">
                 ${comment}
               </div>
             </div>
@@ -597,16 +610,16 @@ export default {
       if (registrationCode) {
         messageContent += `
           <div style="margin-top: 10px; padding: 15px; background: #e8f4fd; border-radius: 8px; border: 1px solid #bee5eb;">
-            <div style="font-size: 14px; color: #0c5460; margin-bottom: 10px;">
+            <div style="font-size: ${this.isMobile ? '13px' : '14px'}; color: #0c5460; margin-bottom: 10px;">
               <strong>🎉 恭喜！您已获得注册资格</strong>
             </div>
-            <div style="font-size: 12px; color: #0c5460; margin-bottom: 10px;">
+            <div style="font-size: ${this.isMobile ? '11px' : '12px'}; color: #0c5460; margin-bottom: 10px;">
               您的注册序列号：
             </div>
-            <div style="font-family: monospace; font-size: 16px; font-weight: bold; color: #155724; background: white; padding: 10px; border-radius: 4px; border: 1px dashed #28a745;">
+            <div style="font-family: monospace; font-size: ${this.isMobile ? '14px' : '16px'}; font-weight: bold; color: #155724; background: white; padding: 10px; border-radius: 4px; border: 1px dashed #28a745; word-break: break-all;">
               ${registrationCode}
             </div>
-            <div style="font-size: 11px; color: #6c757d; margin-top: 10px;">
+            <div style="font-size: ${this.isMobile ? '10px' : '11px'}; color: #6c757d; margin-top: 10px;">
               请妥善保管此序列号，注册时需要用到
             </div>
           </div>
@@ -645,29 +658,6 @@ export default {
       });
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // 其他方法保持不变...
     openEssayDialog(question) {
       // 检查是否需要登录
       if (this.surveyData.settings?.require_login && this.$common.isEmpty(this.$store.state.currentUser)) {
@@ -837,12 +827,14 @@ export default {
   h3 {
     color: var(--darkBlue);
     margin-bottom: 10px;
+    font-size: 18px;
   }
   
   p {
     color: var(--gray);
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 20px;
+    line-height: 1.4;
   }
 }
 
@@ -876,15 +868,17 @@ export default {
 
 .playful {
   color: var(--red);
-  font-size: 40px;
+  font-size: clamp(24px, 6vw, 40px); // 响应式字体大小
+  padding: 0 15px;
+  text-align: center;
 }
 
 .printer {
   color: var(--darkBlue);
   background: var(--background);
   border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
+  margin: 0 15px;
 }
 
 .cursor {
@@ -915,8 +909,8 @@ export default {
 /* 调查问卷容器向上移动 */
 .survey-container {
   max-width: 800px;
-  margin: 40px auto 40px auto;
-  padding: 30px;
+  margin: 20px auto;
+  padding: 20px;
   background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -938,40 +932,26 @@ export default {
 
 .survey-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   
   h2 {
     color: var(--darkBlue);
-    margin-bottom: 15px;
-    font-size: 28px;
+    margin-bottom: 12px;
+    font-size: 20px;
+    line-height: 1.3;
   }
   
   p {
     color: var(--gray);
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-}
-
-.survey-meta {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  font-size: 14px;
-  color: var(--gray);
-  
-  .meta-item {
-    background: var(--lightBg);
-    padding: 5px 12px;
-    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
   }
 }
 
 .question-item {
-  margin-bottom: 30px;
-  padding: 20px;
+  margin-bottom: 20px;
+  padding: 15px;
   border: 1px solid var(--gray15);
   border-radius: 8px;
   background-color: var(--white);
@@ -990,7 +970,7 @@ export default {
 .question-header {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .question-number {
@@ -1008,56 +988,113 @@ export default {
   flex-shrink: 0;
 }
 
+.question-text-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .question-text {
   font-weight: bold;
   color: var(--darkBlue);
-  flex-grow: 1;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-bottom: 5px;
 }
 
 .required-mark {
   color: var(--red);
-  margin-left: 5px;
-  font-size: 18px;
+  font-size: 16px;
+  align-self: flex-start;
 }
 
 .options-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .option-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding: 10px 0;
+}
+
+.option-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.option-label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  width: 100%;
   padding: 8px 0;
-  
-  input {
-    margin-right: 12px;
-    transform: scale(1.2);
-  }
-  
-  label {
-    cursor: pointer;
-    color: var(--darkBlue);
-    font-size: 15px;
-    transition: color 0.3s ease;
-    
-    &:hover {
-      color: var(--orange2);
-    }
-  }
+}
+
+.option-checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--gray15);
+  border-radius: 50%;
+  margin-right: 12px;
+  margin-top: 1px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+input[type="radio"]:checked + label .option-checkbox {
+  border-color: var(--orange2);
+  background-color: var(--orange2);
+}
+
+input[type="radio"]:checked + label .option-checkbox::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + label .option-checkbox {
+  border-color: var(--orange2);
+  background-color: var(--orange2);
+}
+
+input[type="checkbox"]:checked + label .option-checkbox::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+}
+
+.option-text {
+  color: var(--darkBlue);
+  font-size: 14px;
+  line-height: 1.4;
+  flex: 1;
 }
 
 .answer-button-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
 .answer-btn {
-  padding: 12px 24px;
+  padding: 12px 20px;
   background: linear-gradient(135deg, var(--orange2), var(--orange));
   color: white;
   border: none;
@@ -1066,10 +1103,15 @@ export default {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
   
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
   }
   
   &.answered {
@@ -1079,23 +1121,23 @@ export default {
 
 .answer-preview {
   background-color: var(--white);
-  padding: 15px;
+  padding: 12px;
   border-radius: 6px;
   border-left: 4px solid var(--green1);
   
   p {
     margin: 0;
     color: var(--darkBlue);
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 13px;
+    line-height: 1.4;
   }
 }
 
 .error-message {
   color: var(--red);
-  font-size: 13px;
+  font-size: 12px;
   margin-top: 8px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background-color: rgba(255, 0, 0, 0.05);
   border-radius: 4px;
   border-left: 3px solid var(--red);
@@ -1105,20 +1147,22 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  margin-top: 40px;
+  gap: 15px;
+  margin-top: 30px;
 }
 
 .anonymous-option {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  justify-content: center;
   
-  input {
+  .anonymous-checkbox {
     transform: scale(1.2);
   }
   
-  label {
+  .anonymous-label {
     color: var(--darkBlue);
     font-size: 14px;
     cursor: pointer;
@@ -1126,19 +1170,25 @@ export default {
 }
 
 .submit-btn {
-  padding: 15px 40px;
+  padding: 14px 30px;
   background: linear-gradient(135deg, var(--blue2), var(--blue));
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
   
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
   }
   
   &:disabled {
@@ -1156,15 +1206,15 @@ export default {
 .comment-textarea {
   border: 2px solid var(--gray15);
   width: 100%;
-  font-size: 15px;
-  padding: 20px;
-  min-height: 200px;
+  font-size: 14px;
+  padding: 15px;
+  min-height: 150px;
   resize: vertical;
   outline: none;
   border-radius: 8px;
   background-color: var(--white);
-  margin-bottom: 20px;
-  line-height: 1.6;
+  margin-bottom: 15px;
+  line-height: 1.5;
   transition: border-color 0.3s ease;
   
   &:focus {
@@ -1182,6 +1232,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .toolbar-left {
@@ -1192,22 +1244,23 @@ export default {
 .toolbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .char-count {
   color: var(--gray);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .tool-btn {
-  padding: 8px 16px;
+  padding: 6px 12px;
   background: var(--gray15);
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 16px;
+  font-size: 15px;
+  min-width: 44px; // 触摸友好的最小尺寸
   
   &:hover {
     background: var(--orange2);
@@ -1221,58 +1274,79 @@ export default {
 }
 
 .save-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background: linear-gradient(135deg, var(--green1), var(--green2));
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  font-size: 14px;
   transition: all 0.3s ease;
+  min-width: 80px;
   
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
   }
 }
 
 .emoji-panel {
   border: 1px solid var(--gray15);
   border-radius: 8px;
-  padding: 15px;
+  padding: 10px;
   background: var(--white);
-  max-height: 150px;
+  max-height: 120px;
   overflow-y: auto;
 }
 
 .emoji-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .emoji-item {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s ease;
+  min-width: 30px;
+  text-align: center;
   
   &:hover {
     background: var(--orange2);
     transform: scale(1.2);
   }
+  
+  &:active {
+    transform: scale(1.1);
+  }
 }
 
 // 响应式设计
 @media screen and (max-width: 768px) {
+  .signature-wall {
+    height: 80vh;
+  }
+  
+  .el-icon-arrow-down {
+    font-size: 32px;
+    bottom: 40px;
+  }
+  
   .survey-container {
-    margin: 20px;
-    padding: 20px;
+    margin: 15px;
+    padding: 15px;
   }
   
   .playful {
-    font-size: 30px;
+    font-size: 28px;
   }
   
   .question-header {
@@ -1281,27 +1355,135 @@ export default {
   }
   
   .question-number {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   
-  .survey-meta {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  .question-text {
+    font-size: 14px;
+  }
+  
+  .options-container {
+    gap: 8px;
+  }
+  
+  .option-label {
+    padding: 6px 0;
+  }
+  
+  .option-checkbox {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin-right: 10px;
+  }
+  
+  .option-text {
+    font-size: 13px;
+  }
+  
+  .answer-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .answer-preview p {
+    font-size: 12px;
+  }
+  
+  .submit-btn {
+    padding: 12px 20px;
+    font-size: 14px;
   }
   
   .toolbar {
     flex-direction: column;
-    gap: 15px;
+    align-items: stretch;
+    gap: 8px;
   }
   
   .toolbar-left, .toolbar-right {
     width: 100%;
     justify-content: center;
   }
+  
+  .comment-textarea {
+    min-height: 120px;
+    font-size: 13px;
+    padding: 12px;
+  }
+  
+  .emoji-panel {
+    max-height: 100px;
+  }
+  
+  .emoji-item {
+    font-size: 16px;
+    min-width: 28px;
+  }
 }
 
-::v-deep .essay-dialog {
+@media screen and (max-width: 480px) {
+  .signature-wall {
+    height: 70vh;
+  }
+  
+  .playful {
+    font-size: 24px;
+  }
+  
+  .printer h3 {
+    font-size: 14px;
+  }
+  
+  .el-icon-arrow-down {
+    font-size: 28px;
+    bottom: 30px;
+  }
+  
+  .survey-container {
+    margin: 10px;
+    padding: 12px;
+  }
+  
+  .survey-header h2 {
+    font-size: 18px;
+  }
+  
+  .survey-header p {
+    font-size: 13px;
+  }
+  
+  .question-item {
+    padding: 12px;
+  }
+  
+  .question-number {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  
+  .answer-btn, .save-btn, .tool-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* 防止移动端点击时出现蓝色背景 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 改善移动端滚动体验 */
+html {
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::v-deep .essay-dialog.mobile-dialog {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -1309,14 +1491,20 @@ export default {
   .el-dialog__header {
     background: linear-gradient(135deg, var(--orange2), var(--orange));
     color: white;
+    padding: 12px 15px;
     
     .el-dialog__title {
       color: white;
+      font-size: 16px;
     }
     
     .el-dialog__headerbtn {
+      top: 12px;
+      right: 15px;
+      
       .el-dialog__close {
         color: white;
+        font-size: 18px;
         
         &:hover {
           color: var(--gray15);
@@ -1324,18 +1512,18 @@ export default {
       }
     }
   }
+  
+  .el-dialog__body {
+    padding: 15px;
+  }
 }
-
-
-
-
-
-
 
 /* 评估结果弹窗样式 */
 .evaluation-result-modal .el-message-box {
   width: 500px;
   max-width: 90vw;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .evaluation-result-modal .el-message-box__header {
@@ -1358,13 +1546,19 @@ export default {
 }
 
 .evaluation-result-modal .el-message-box__content {
-  padding: 25px 20px;
+  padding: 20px;
   max-height: 70vh;
   overflow-y: auto;
+  font-size: 14px;
 }
 
 .evaluation-result-modal .el-message-box__btns {
   padding: 10px 20px 20px 20px;
+  
+  .el-button {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
 }
 
 /* 自定义滚动条样式 */
@@ -1386,11 +1580,33 @@ export default {
   background: #a8a8a8;
 }
 
-
-
-
-
-
-
-
+/* 移动端评估结果弹窗 */
+@media screen and (max-width: 768px) {
+  .evaluation-result-modal .el-message-box {
+    width: 90vw;
+    margin: 0 auto;
+  }
+  
+  .evaluation-result-modal .el-message-box__header {
+    padding: 12px 15px;
+  }
+  
+  .evaluation-result-modal .el-message-box__title {
+    font-size: 14px;
+  }
+  
+  .evaluation-result-modal .el-message-box__content {
+    padding: 15px;
+    font-size: 13px;
+  }
+  
+  .evaluation-result-modal .el-message-box__btns {
+    padding: 8px 15px 15px 15px;
+    
+    .el-button {
+      padding: 8px 20px;
+      font-size: 13px;
+    }
+  }
+}
 </style>
