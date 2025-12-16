@@ -551,12 +551,18 @@
         <div>
           <div class="small-menu">
             <div class="menu_item">
+
+
+
               <!-- 我的相关功能 -->
+              <!--
               <span @click="smallMenu({ path: '/travel' })">
                 <span>📸</span>
                 <span>相册</span>
               </span>
-              
+              -->
+
+
               <span @click="smallMenu({ path: '/bloglist', query: { mode: 'personal' } })">
                 <img src="../assets/svg/home.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>點點</span>
@@ -567,7 +573,18 @@
                 <span>編輯</span>
               </span>
 
+
+              <span @click="AI_Wo">
+                <img src="../assets/svg/space.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
+                <span>AI"我"</span>
+              </span>
+
+
+
+
+
               <!-- 文章相关 -->
+              <!--
               <span @click="smallMenu({ path: '/sort' })">
                 <img src="../assets/svg/sort.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>分类</span>
@@ -577,8 +594,13 @@
                 <img src="../assets/svg/tag.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>标签</span>
               </span>
+              -->
+
+
+
 
               <!-- 空间相关 -->
+              <!--
               <span @click="smallMenu({ path: '/funny' })">
                 <img src="../assets/svg/music.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>幻音坊</span>
@@ -588,8 +610,11 @@
                 <img src="../assets/svg/treasure.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>藏宝阁</span>
               </span>
+              -->
+
 
               <!-- 社交相关 -->
+              <!--
               <span @click="smallMenu({ path: '/message' })">
                 <span>✍🏻</span>
                 <span>留言厅</span>
@@ -599,6 +624,8 @@
                 <span>🎀</span>
                 <span>友链</span>
               </span>
+              -->
+
 
               <!-- 其他功能 -->
               <span @click="openPcGame">
@@ -608,7 +635,7 @@
               
               <span @click="smallMenu({ path: '/survey', query: { mode: 'question' } })">
                 <img src="../assets/svg/blog.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
-                <span>加入我們</span>
+                <span>加入烏托邦</span>
               </span>
 
               <!-- 设置功能 -->
