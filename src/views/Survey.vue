@@ -212,7 +212,6 @@
   </div>
 </template>
 
-
 <script>
 // 组件引入
 const printer = () => import("./common/printer");
@@ -557,26 +556,47 @@ export default {
         scoreLevel = '需改进';
       }
       
-      // 构建消息内容
+      // 构建消息内容 - 添加可滚动区域
       let messageContent = `
-        <div style="text-align: center; padding: 20px;">
+        <div style="text-align: center;">
           <div style="font-size: 48px; color: ${scoreColor}; margin-bottom: 10px;">
             ${score}分
           </div>
           <div style="font-size: 18px; color: ${scoreColor}; margin-bottom: 20px;">
             ${scoreLevel}
           </div>
-          <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid ${scoreColor};">
-            <div style="font-size: 14px; color: #606266; line-height: 1.6; text-align: left;">
-              ${comment}
+          
+          <!-- 添加可滚动区域 -->
+          <div style="
+            max-height: 200px; 
+            overflow-y: auto; 
+            margin-bottom: 20px;
+            padding-right: 10px;
+            text-align: left;
+          ">
+            <div style="
+              background: #f8f9fa; 
+              padding: 15px; 
+              border-radius: 8px; 
+              border-left: 4px solid ${scoreColor};
+            ">
+              <div style="font-size: 14px; color: #606266; line-height: 1.6; white-space: pre-wrap;">
+                ${comment}
+              </div>
             </div>
+          </div>
+          
+          <!-- 添加滚动提示 -->
+          <div v-if="${comment.length > 200}" style="font-size: 12px; color: #909399; margin-bottom: 10px;">
+            <i class="el-icon-bottom" style="margin-right: 5px;"></i>
+            可向下滑动查看更多内容
           </div>
       `;
       
       // 如果有注册序列号，显示序列号信息
       if (registrationCode) {
         messageContent += `
-          <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 8px; border: 1px solid #bee5eb;">
+          <div style="margin-top: 10px; padding: 15px; background: #e8f4fd; border-radius: 8px; border: 1px solid #bee5eb;">
             <div style="font-size: 14px; color: #0c5460; margin-bottom: 10px;">
               <strong>🎉 恭喜！您已获得注册资格</strong>
             </div>
@@ -1314,7 +1334,8 @@ export default {
 
 /* 评估结果弹窗样式 */
 .evaluation-result-modal .el-message-box {
-  width: 450px;
+  width: 500px;
+  max-width: 90vw;
 }
 
 .evaluation-result-modal .el-message-box__header {
@@ -1337,7 +1358,32 @@ export default {
 }
 
 .evaluation-result-modal .el-message-box__content {
-  padding: 30px 20px;
+  padding: 25px 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.evaluation-result-modal .el-message-box__btns {
+  padding: 10px 20px 20px 20px;
+}
+
+/* 自定义滚动条样式 */
+.evaluation-result-modal .el-message-box__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.evaluation-result-modal .el-message-box__content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.evaluation-result-modal .el-message-box__content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.evaluation-result-modal .el-message-box__content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 
