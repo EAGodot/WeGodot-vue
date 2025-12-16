@@ -1362,7 +1362,7 @@ export default {
 
     AI_Wo() {
       this.$notify({
-        title: "...!",
+        title: "...",
         message: "功能開發中，敬請期待！！",
         type: "success",
         offset: 50,
