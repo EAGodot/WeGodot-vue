@@ -85,15 +85,26 @@
             <div class="section-header">
               <h2>Markdown 文档列表</h2>
               <div class="document-actions">
-                <el-button 
-                  size="small" 
+                <el-button
+                  v-if="isMultipleDocuments"
+                  size="small"
+                  class="fold-btn"
+                  @click="collapsed = !collapsed"
+                >
+                  <i
+                    :class="collapsed ? 'el-icon-arrow-right' : 'el-icon-arrow-down'"
+                  ></i>
+                  {{ collapsed ? '展开全部' : '折叠' }}
+                </el-button>
+                <el-button
+                  size="small"
                   @click="reloadLatestDocument"
                   :loading="loadingContent"
                 >
                   <i class="el-icon-refresh"></i> 刷新最新
                 </el-button>
-                <el-button 
-                  size="small" 
+                <el-button
+                  size="small"
                   @click="downloadDocument(currentDocument)"
                   v-if="currentDocument && currentDocument.file_url"
                 >
@@ -103,23 +114,28 @@
             </div>
             <div v-if="loadingDocuments" class="loading">加载中...</div>
             <div v-else class="document-items">
-              <div 
-                v-for="doc in markdownDocuments" 
+              <div
+                v-for="doc in displayDocuments"
                 :key="doc.id"
                 class="document-item"
-                :class="{ 
+                :class="{
                   active: currentDocument && currentDocument.id === doc.id,
-                  latest: isLatestDocument(doc)
+                  latest: isLatestDocument(doc),
+                  collapsed: collapsed && isMultipleDocuments,
                 }"
                 @click="loadMarkdownDocument(doc)"
               >
                 <div class="document-title">
                   {{ doc.title }}
-                  <span v-if="isLatestDocument(doc)" class="latest-badge">最新</span>
+                  <span v-if="isLatestDocument(doc)" class="latest-badge"
+                    >最新</span
+                  >
                 </div>
                 <div class="document-meta">
                   {{ formatDate(doc.created_at) }}
-                  <span v-if="!doc.is_previewable" class="no-preview">(不可预览)</span>
+                  <span v-if="!doc.is_previewable" class="no-preview"
+                    >(不可预览)</span
+                  >
                 </div>
               </div>
               <div v-if="markdownDocuments.length === 0" class="empty-state">
@@ -218,6 +234,7 @@ export default {
       currentDocument: null, // 当前选中的文档
       loadingDocuments: false, // 文档列表加载状态
       loadingContent: false, // 文档内容加载状态
+      collapsed: true, // 文档列表折叠状态
       
       // 新增：图片显示相关数据 20260410新增
       storyImageUrl: '',      // 图片URL
@@ -239,6 +256,17 @@ export default {
       },
       parentLoadingMark: false,
     };
+  },
+  computed: {
+    isMultipleDocuments() {
+      return this.markdownDocuments.length > 1;
+    },
+    displayDocuments() {
+      if (!this.collapsed && this.isMultipleDocuments) {
+        return this.markdownDocuments;
+      }
+      return this.markdownDocuments.slice(0, 1);
+    },
   },
   beforeRouteEnter(to, from, next) {
     if (from.path === "/") {
@@ -526,6 +554,10 @@ export default {
       display: flex;
       gap: 10px;
       margin-left: -10px;
+      
+      .fold-btn {
+        margin-left: 0;
+      }
     }
   }
 }
@@ -582,6 +614,12 @@ export default {
   max-height: 400px;
   overflow-y: auto;
   padding: 5px;
+  transition: all 0.3s ease;
+  
+  .document-item.collapsed {
+    grid-column: 1 / -1;
+    max-width: 600px;
+  }
 }
 
 .document-item {
