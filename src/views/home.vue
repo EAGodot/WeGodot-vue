@@ -39,6 +39,20 @@
               <!-- 切片 -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
+                  <li @click="$router.push({ path: '/target' })">
+                    <img
+                      style="vertical-align: -3px"
+                      src="../assets/svg/target.svg"
+                      @error="$event.target.style.display='none'"
+                    />
+                    Target
+                  </li>
+                </span>
+              </li>
+
+              <!-- 切片 -->
+              <li>
+                <span slot="reference" class="el-dropdown-link">
                   <li
                     @click="
                       $router.push({ 
@@ -361,6 +375,11 @@
           <div class="mobile-toolbar">
             <ul class="mobile-scroll-menu">
               <!-- 主要功能按钮 -->
+              <li @click="$router.push({ path: '/target' })">
+                <img style="vertical-align: -3px" src="../assets/svg/target.svg" @error="$event.target.style.display='none'" />
+                <span class="mobile-menu-text">Target</span>
+              </li>
+
               <li @click="$router.push({ path: '/bloglist', query: { mode: 'all' } })">
                 <img style="vertical-align: -3px" src="../assets/svg/blog.svg" />
                 <span class="mobile-menu-text">切片</span>

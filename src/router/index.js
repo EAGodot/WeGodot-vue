@@ -75,6 +75,16 @@ const routes = [
         component: () => import("../views/tools"),
       },
       {
+        path: "/target",
+        name: "target",
+        component: () => import("../views/target"),
+      },
+      {
+        path: "/targetDetail",
+        name: "targetDetail",
+        component: () => import("../views/targetDetail"),
+      },
+      {
         path: "/message",
         name: "message",
         component: () => import("../views/message"),
