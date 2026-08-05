@@ -99,7 +99,7 @@ export default {
   methods: {
     loadTask() {
       this.$http
-        .post(this.$constant.baseURL + '/api/task/detail/', { task_id: this.taskId })
+        .post(this.$constant.baseURL + '/task/detail/', { task_id: this.taskId })
         .then((res) => {
           if (res.result && !this.$common.isEmpty(res.result[0])) {
             const data = res.result[0];
@@ -123,10 +123,10 @@ export default {
     loadParticipants() {
       if (!this.isCreator) return;
       this.$http
-        .post(this.$constant.baseURL + '/api/task/detail/', { task_id: this.taskId })
+        .post(this.$constant.baseURL + '/task/detail/', { task_id: this.taskId })
         .then(() => {
           this.$http
-            .post(this.$constant.baseURL + '/api/task/participants/', { task_id: this.taskId })
+            .post(this.$constant.baseURL + '/task/participants/', { task_id: this.taskId })
             .then((res) => {
               if (res.result && !this.$common.isEmpty(res.result[0])) {
                 this.participants = res.result[0].data || [];
@@ -152,7 +152,7 @@ export default {
         return;
       }
       this.$http
-        .post(this.$constant.baseURL + '/api/task/join/', {
+        .post(this.$constant.baseURL + '/task/join/', {
           task_id: this.taskId,
           user_id: this.currentUser.id,
         })
@@ -201,7 +201,7 @@ export default {
         return;
       }
       this.$http
-        .post(this.$constant.baseURL + '/api/task/uploadProof/', {
+        .post(this.$constant.baseURL + '/task/uploadProof/', {
           task_id: this.taskId,
           user_id: this.currentUser.id,
           image: imageUrl,
@@ -238,7 +238,7 @@ export default {
     },
     completeTask() {
       this.$http
-        .post(this.$constant.baseURL + '/api/task/complete/', {
+        .post(this.$constant.baseURL + '/task/complete/', {
           task_id: this.taskId,
           user_id: this.currentUser.id,
         })

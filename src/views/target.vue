@@ -102,7 +102,7 @@ export default {
         status: 0,
       };
       this.$http
-        .post(this.$constant.baseURL + '/api/task/list/', params)
+        .post(this.$constant.baseURL + '/task/list/', params)
         .then((res) => {
           if (res.result && !this.$common.isEmpty(res.result[0])) {
             this.tasks = res.result[0].data || [];

@@ -137,7 +137,7 @@ export default {
         creator_id: user.id,
       };
       this.$http
-        .post(this.$constant.baseURL + '/api/task/create/', params)
+        .post(this.$constant.baseURL + '/task/create/', params)
         .then((res) => {
           if (res.result && !this.$common.isEmpty(res.result[0]) && res.result[0].code === 200) {
             this.$notify({
