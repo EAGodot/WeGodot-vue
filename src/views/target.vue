@@ -67,8 +67,7 @@
         :total="total">
       </el-pagination>
     </div>
-
-    <div class="pagination-wrap" v-if="total > 0">
+  </div>
 </template>
 
 <script>
@@ -87,7 +86,7 @@ export default {
   computed: {
     canCreateTask() {
       const user = this.$store.state.currentUser;
-      return user && user.id && (user.userType === 0 || user.userType === 1);
+      return user && user.id;
     },
   },
   created() {
