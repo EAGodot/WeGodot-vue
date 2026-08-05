@@ -36,12 +36,12 @@
         <template v-if="!$common.mobile()">
           <div class="center-toolbar">
             <ul class="scroll-menu">
-              <!-- 切片 -->
+              <!-- Target -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
                   <li @click="$router.push({ path: '/target' })">
                     <img
-                      style="vertical-align: -3px"
+                      style="vertical-align: -3px; width: 20px; height: 20px;"
                       src="../assets/svg/target.svg"
                       @error="$event.target.style.display='none'"
                     />
@@ -62,7 +62,7 @@
                     "
                   >
                     <img
-                      style="vertical-align: -3px"
+                      style="vertical-align: -3px; width: 20px; height: 20px;"
                       src="../assets/svg/blog.svg"
                     />
                     切片
@@ -376,12 +376,12 @@
             <ul class="mobile-scroll-menu">
               <!-- 主要功能按钮 -->
               <li @click="$router.push({ path: '/target' })">
-                <img style="vertical-align: -3px" src="../assets/svg/target.svg" @error="$event.target.style.display='none'" />
+                <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/target.svg" @error="$event.target.style.display='none'" />
                 <span class="mobile-menu-text">Target</span>
               </li>
 
               <li @click="$router.push({ path: '/bloglist', query: { mode: 'all' } })">
-                <img style="vertical-align: -3px" src="../assets/svg/blog.svg" />
+                <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/blog.svg" />
                 <span class="mobile-menu-text">切片</span>
               </li>
 

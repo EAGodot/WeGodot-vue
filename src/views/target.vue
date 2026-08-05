@@ -15,7 +15,7 @@
         @keyup.enter.native="searchTask"
       ></el-input>
       <el-button type="primary" @click="searchTask">搜索</el-button>
-      <el-button type="success" @click="showCreateDialog" v-if="canCreateTask">发布任务</el-button>
+      <el-button type="success" icon="el-icon-plus" @click="$router.push({ path: '/targetCreate' })" v-if="canCreateTask">发布任务</el-button>
     </div>
 
     <div class="task-list">
@@ -68,28 +68,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="发布任务" :visible.sync="createDialogVisible" width="600px">
-      <el-form :model="createForm" label-width="120px">
-        <el-form-item label="任务标题" required>
-          <el-input v-model="createForm.title" placeholder="请输入任务标题"></el-input>
-        </el-form-item>
-        <el-form-item label="任务描述">
-          <el-input v-model="createForm.description" type="textarea" rows="4" placeholder="请输入任务描述"></el-input>
-        </el-form-item>
-        <el-form-item label="任务金额" required>
-          <el-input-number v-model="createForm.amount" :min="0" :step="0.01" :precision="2"></el-input-number>
-        </el-form-item>
-        <el-form-item label="最大参与人数">
-          <el-input-number v-model="createForm.max_participants" :min="0"></el-input-number>
-          <span style="margin-left: 10px; color: #999">0 为不限</span>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="createDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="createTask">发布</el-button>
-      </div>
-    </el-dialog>
-  </div>
+    <div class="pagination-wrap" v-if="total > 0">
 </template>
 
 <script>
@@ -103,13 +82,6 @@ export default {
       pageSize: 10,
       total: 0,
       searchKey: '',
-      createDialogVisible: false,
-      createForm: {
-        title: '',
-        description: '',
-        amount: 0,
-        max_participants: 0,
-      },
     };
   },
   computed: {
@@ -168,70 +140,6 @@ export default {
     getStatusType(status) {
       const map = { 0: 'success', 1: 'info', 2: 'danger' };
       return map[status] || 'info';
-    },
-    showCreateDialog() {
-      this.createForm = { title: '', description: '', amount: 0, max_participants: 0 };
-      this.createDialogVisible = true;
-    },
-    createTask() {
-      const user = this.$store.state.currentUser;
-      if (!user || !user.id) {
-        this.$notify({
-          type: 'error',
-          title: '请先登录',
-          message: '只有登录用户才能发布任务',
-          position: 'top-left',
-          offset: 50,
-        });
-        return;
-      }
-      if (!this.createForm.title || this.createForm.amount <= 0) {
-        this.$notify({
-          type: 'warning',
-          title: '请填写完整信息',
-          position: 'top-left',
-          offset: 50,
-        });
-        return;
-      }
-      const params = {
-        title: this.createForm.title,
-        description: this.createForm.description,
-        amount: parseFloat(this.createForm.amount),
-        max_participants: parseInt(this.createForm.max_participants) || 0,
-        creator_id: user.id,
-      };
-      this.$http
-        .post(this.$constant.baseURL + '/api/task/create/', params)
-        .then((res) => {
-          if (res.result && !this.$common.isEmpty(res.result[0]) && res.result[0].code === 200) {
-            this.$notify({
-              type: 'success',
-              title: '发布成功',
-              position: 'top-left',
-              offset: 50,
-            });
-            this.createDialogVisible = false;
-            this.loadTasks();
-          } else {
-            this.$notify({
-              type: 'error',
-              title: '发布失败',
-              message: (res.result && res.result[0] && res.result[0].message) || '未知错误',
-              position: 'top-left',
-              offset: 50,
-            });
-          }
-        })
-        .catch((error) => {
-          this.$notify({
-            type: 'error',
-            title: '发布失败',
-            message: error.message,
-            position: 'top-left',
-            offset: 50,
-          });
-        });
     },
   },
 };

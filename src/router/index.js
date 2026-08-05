@@ -80,6 +80,11 @@ const routes = [
         component: () => import("../views/target"),
       },
       {
+        path: "/targetCreate",
+        name: "targetCreate",
+        component: () => import("../views/targetCreate"),
+      },
+      {
         path: "/targetDetail",
         name: "targetDetail",
         component: () => import("../views/targetDetail"),
