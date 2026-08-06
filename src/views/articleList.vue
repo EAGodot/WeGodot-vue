@@ -177,7 +177,7 @@
               >
                 <img
                   style="vertical-align: -3px; margin-right: 5px"
-                  src="../assets/svg/tag2.svg"
+                  src="../assets/svg/wg.svg"
                 />
                 <div class="SortLabelName">
                   {{ article.label[0].labelName }}

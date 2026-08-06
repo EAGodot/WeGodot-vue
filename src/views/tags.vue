@@ -72,7 +72,7 @@
                         query: { sortId: item.sortId, labelId: labelId },
                       })
                     " class="article-sort-item-tags">
-                    <img style="vertical-align: -3px" src="../assets/svg/tag2.svg" />
+                     <img style="vertical-align: -3px" src="../assets/svg/wg.svg" />
                     {{ item.label[0].labelName }}</span>
                 </div>
               </div>

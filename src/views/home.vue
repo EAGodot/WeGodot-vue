@@ -106,18 +106,6 @@
                       🐷 <span>點點</span>
                     </li>
 
-                    <li
-                      @click="
-                        $router.push({ path: '/blogedit', query: { labelId: 25 } })
-                      "
-                    >                  
-                    <img
-                      style="vertical-align: -5px"
-                      src="../assets/svg/pencil.svg"
-                    />
-                    編輯
-                    </li>
-
                     <!-- 我的任务 -->
                     <li @click="$router.push({ path: '/myTasks' })">
                       <img
@@ -196,17 +184,17 @@
                       分类
                     </li>
               
-                    <li
-                      @click="
-                        $router.push({ path: '/tags', query: { labelId: 25 } })
-                      "
-                    >
-                      <img
-                        style="vertical-align: -3px"
-                        src="../assets/svg/tag.svg"
-                      />
-                      标签
-                    </li>
+                     <li
+                       @click="
+                         $router.push({ path: '/tags', query: { labelId: 25 } })
+                       "
+                     >
+                       <img
+                         style="vertical-align: -3px"
+                         src="../assets/svg/wg.svg"
+                       />
+                       标签
+                     </li>
                   </div>
                 </el-popover>
               </li>

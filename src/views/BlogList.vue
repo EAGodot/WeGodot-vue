@@ -77,6 +77,7 @@
 
           <div class="stats-section">
             <span class="blog-count">共 {{ totalCount }} 篇博客</span>
+            <el-button type="primary" size="small" @click="createNewBlog" v-if="isPersonalMode">写博客</el-button>
           </div>
         </div>
 
@@ -1540,6 +1541,14 @@ export default {
 
 
 
+
+    // 创建新博客
+    createNewBlog() {
+      this.$router.push({
+        path: '/blogedit',
+        query: { source: 'list' }
+      })
+    },
 
     // 查看博客詳情
     async viewBlogDetail(blogId) {

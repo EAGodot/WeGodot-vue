@@ -16,6 +16,7 @@
       ></el-input>
       <el-button type="primary" @click="searchTask">搜索</el-button>
       <el-button type="success" icon="el-icon-plus" @click="$router.push({ path: '/targetCreate' })" v-if="canCreateTask">发布任务</el-button>
+      <el-button type="warning" icon="el-icon-document" @click="$router.push({ path: '/myTasks' })">我的任务</el-button>
     </div>
 
     <div class="task-list">
