@@ -18,6 +18,7 @@
         <!-- 网站名称 -->
         <div @click="$router.push({ path: '/' })" class="toolbar-title">
           <h2>
+            <img src="../assets/svg/wegodot.svg" style="width: 28px; height: 28px; vertical-align: -6px; margin-right: 8px;" />
             {{ $store.state.webInfo.webName }}
           </h2>
         </div>
