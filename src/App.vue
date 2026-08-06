@@ -88,7 +88,7 @@
         <!-- 可能用於裝飾或動畫 -->
         <span></span>
         <div class="author-img">
-          <img src="./assets/file/avatar.jpg" alt="" />
+          <img src="/title.jpg" alt="" />
         </div>
       </div>
       <div class="image-dot"></div>
