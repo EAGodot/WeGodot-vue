@@ -77,7 +77,7 @@
 
           <div class="stats-section">
             <span class="blog-count">共 {{ totalCount }} 篇博客</span>
-            <el-button type="primary" size="small" @click="createNewBlog" v-if="isPersonalMode">写博客</el-button>
+            <el-button type="primary" size="small" @click="createNewBlog">写博客</el-button>
           </div>
         </div>
 
