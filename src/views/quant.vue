@@ -84,7 +84,7 @@ export default {
       this.logLoading = true;
       this.logError = null;
       const timestamp = Date.now();
-      fetch(`${this.$constant.baseURL}/api/quant/log/?v=${timestamp}`)
+      fetch(`${this.$constant.baseURL}/quant/log/?v=${timestamp}`)
         .then(res => res.json())
         .then(data => {
           this.logLoading = false;
