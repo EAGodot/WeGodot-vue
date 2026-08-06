@@ -30,17 +30,6 @@
       </div>
 
 
-      <!-- 新增：图片显示控件 (在getGuShi控件下方，通过API从Django后台获取) -->
-      <div class="story-image-area" v-if="storyImageUrl">
-        <div class="story-image-card">
-          <img :src="storyImageUrl" class="story-image" />
-        </div>
-      </div>
-
-
-
-
-
 
 
 
@@ -235,11 +224,6 @@ export default {
       loadingDocuments: false, // 文档列表加载状态
       loadingContent: false, // 文档内容加载状态
       collapsed: true, // 文档列表折叠状态
-      
-      // 新增：图片显示相关数据 20260410新增
-      storyImageUrl: '',      // 图片URL
-
-
 
       articles: [],
       recommendArticles: [],
@@ -280,7 +264,6 @@ export default {
   created() {
     this.getGuShi();
     this.loadMarkdownDocuments(); // 加载文档列表
-    this.fetchStoryImage();       // 新增：加载图片20260410
   },
   mounted() {
     // 添加调试代码 - 检查背景状态
@@ -291,26 +274,6 @@ export default {
     this.scrollTo();
   },
   methods: {
-
-    // 新增：从 Django 后台 API 获取图片
-    async fetchStoryImage() {
-      try {
-        // 调用 Django 后台图片接口
-        const response = await this.$http.get(this.$constant.baseURL + "/markdown/image/");
-        if (response.success && response.data) {
-          this.storyImageUrl = response.data.image_url;
-        } else {
-          console.warn('获取图片失败:', response);
-          // 可选：设置默认图片
-          // this.storyImageUrl = '/default-image.jpg';
-        }
-      } catch (error) {
-        console.error('获取故事图片出错:', error);
-      }
-    },
-
-
-
 
     // 加载 Markdown 文档列表
     async loadMarkdownDocuments() {
@@ -747,37 +710,6 @@ export default {
     color: var(--fontColor) !important;
   }
 }
-
-
-// 新增：图片显示控件样式20260410
-.story-image-area {
-  margin: 20px auto 10px;
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  justify-content: center;
-}
-
-.story-image-card {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.02);
-  }
-}
-
-.story-image {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  display: block;
-}
-
-
-
 
 // 响应式设计
 @media screen and (max-width: 1278px) {

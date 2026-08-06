@@ -50,6 +50,20 @@
                 </span>
               </li>
 
+              <!-- 量化交易 -->
+              <li>
+                <span slot="reference" class="el-dropdown-link">
+                  <li @click="$router.push({ path: '/quant' })">
+                    <img
+                      style="vertical-align: -3px; width: 20px; height: 20px;"
+                      src="../assets/svg/quant.svg"
+                      @error="$event.target.style.display='none'"
+                    />
+                    量化交易
+                  </li>
+                </span>
+              </li>
+
               <!-- 切片 -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
@@ -378,6 +392,11 @@
               <li @click="$router.push({ path: '/target' })">
                 <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/target.svg" @error="$event.target.style.display='none'" />
                 <span class="mobile-menu-text">Target</span>
+              </li>
+
+              <li @click="$router.push({ path: '/quant' })">
+                <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/quant.svg" @error="$event.target.style.display='none'" />
+                <span class="mobile-menu-text">量化交易</span>
               </li>
 
               <li @click="$router.push({ path: '/bloglist', query: { mode: 'all' } })">

@@ -90,6 +90,11 @@ const routes = [
         component: () => import("../views/targetDetail"),
       },
       {
+        path: "/quant",
+        name: "quant",
+        component: () => import("../views/quant"),
+      },
+      {
         path: "/message",
         name: "message",
         component: () => import("../views/message"),
