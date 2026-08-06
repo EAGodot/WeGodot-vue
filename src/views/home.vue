@@ -40,21 +40,21 @@
               <!-- Target -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
-                  <li @click="$router.push({ path: '/target' })">
-                    <img
-                      style="vertical-align: -3px; width: 20px; height: 20px;"
-                      src="../assets/svg/target.svg"
-                      @error="$event.target.style.display='none'"
-                    />
-                    Target
-                  </li>
+              <li @click="$router.push({ path: '/target' })" class="nav-item-btn">
+                <img
+                  style="vertical-align: -3px; width: 20px; height: 20px;"
+                  src="../assets/svg/target.svg"
+                  @error="$event.target.style.display='none'"
+                />
+                Target
+              </li>
                 </span>
               </li>
 
               <!-- 量化交易 -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
-                  <li @click="$router.push({ path: '/quant' })">
+                  <li @click="$router.push({ path: '/quant' })" class="nav-item-btn">
                     <img
                       style="vertical-align: -3px; width: 20px; height: 20px;"
                       src="../assets/svg/quant.svg"
@@ -75,6 +75,7 @@
                         query: { mode: 'all' } 
                       })
                     "
+                    class="nav-item-btn"
                   >
                     <img
                       style="vertical-align: -3px; width: 20px; height: 20px;"
@@ -85,76 +86,7 @@
                 </span>
               </li>
 
-              <!-- 我的 -->
-              <li>
-                <el-popover
-                  :visible-arrow="false"
-                  transition="el-zoom-in-center"
-                  close-delay="300"
-                  popper-class="mk-popper"
-                  placement="bottom"
-                  trigger="hover"
-                >
-                  <div class="mk-popover_item">
-                    <!-- 相册 -->
-                    <li @click="$router.push({ path: '/travel' })">
-                      📸 <span>相册</span>
-                    </li>
 
-                    <!-- 點點 -->
-                    <li @click="$router.push({ path: '/bloglist', query: { mode: 'personal' } })">
-                      🐷 <span>點點</span>
-                    </li>
-
-                    <!-- 我的任务 -->
-                    <li @click="$router.push({ path: '/myTasks' })">
-                      <img
-                        style="vertical-align: -3px; width: 14px; height: 14px;"
-                        src="../assets/svg/target.svg"
-                        @error="$event.target.style.display='none'"
-                      />
-                      <span>我的任务</span>
-                    </li>
-                  </div>
-                  <span slot="reference" class="el-dropdown-link">
-                    <img
-                      style="vertical-align: -3px"
-                      src="../assets/svg/home.svg"
-                    />
-                    我的
-                  </span>
-                </el-popover>
-              </li>
-
-              <!-- AI"我" -->
-              <li>
-                <el-popover
-                  :visible-arrow="false"
-                  transition="el-zoom-in-center"
-                  close-delay="300"
-                  popper-class="mk-popper"
-                  placement="bottom"
-                  trigger="hover"
-                >
-                  <div class="mk-popover_item">
-                    <!-- 製作 -->
-                    <li @click="AI_Wo">
-                      <img
-                        style="vertical-align: -3px"
-                        src="../assets/svg/music.svg"
-                      />
-                      製作
-                    </li>
-                  </div>
-                  <span slot="reference" class="el-dropdown-link">
-                    <img
-                      style="vertical-align: -3px"
-                      src="../assets/svg/space.svg"
-                    />
-                    AI"我"
-                  </span>
-                </el-popover>
-              </li>
 
               <!-- 屏蔽掉
         
@@ -271,11 +203,7 @@
 
 
 
-              <li>
-                <span slot="reference" class="el-dropdown-link">
-                  <li @click="openPcGame">🎮 <span>小游戏</span></li>
-                </span>
-              </li>
+
 
               <!-- 加入我们 -->
               <li>
@@ -287,6 +215,7 @@
                         query: { mode: 'question' } 
                       })
                     "
+                    class="nav-item-btn"
                   >
                   <img
                     style="vertical-align: -3px; width: 20px; height: 20px;"
@@ -389,42 +318,23 @@
           <div class="mobile-toolbar">
             <ul class="mobile-scroll-menu">
               <!-- 主要功能按钮 -->
-              <li @click="$router.push({ path: '/target' })">
+              <li @click="$router.push({ path: '/target' })" class="nav-item-btn">
                 <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/target.svg" @error="$event.target.style.display='none'" />
                 <span class="mobile-menu-text">Target</span>
               </li>
 
-              <li @click="$router.push({ path: '/quant' })">
+              <li @click="$router.push({ path: '/quant' })" class="nav-item-btn">
                 <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/quant.svg" @error="$event.target.style.display='none'" />
                 <span class="mobile-menu-text">量化交易</span>
               </li>
 
-              <li @click="$router.push({ path: '/bloglist', query: { mode: 'all' } })">
+              <li @click="$router.push({ path: '/bloglist', query: { mode: 'all' } })" class="nav-item-btn">
                 <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/blog.svg" />
                 <span class="mobile-menu-text">切片</span>
               </li>
 
-              <li @click="$router.push({ path: '/bloglist', query: { mode: 'personal' } })">
-                <img style="vertical-align: -3px" src="../assets/svg/home.svg" />
-                <span class="mobile-menu-text">我的</span>
-              </li>
-
-
-
-              <li @click="AI_Wo">
-                <img style="vertical-align: -3px" src="../assets/svg/document.svg" />
-                <span class="mobile-menu-text">AI"我"</span>
-              </li>
-
-
-
-              <li @click="openPcGame">
-                <span style="font-size: 18px">🎮</span>
-                <span class="mobile-menu-text">游戏</span>
-              </li>
-
               <!-- 加入我们 -->
-              <li @click="$router.push({ path: '/survey', query: { mode: 'question' } })">
+              <li @click="$router.push({ path: '/survey', query: { mode: 'question' } })" class="nav-item-btn">
                 <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/redPeople.svg" @error="$event.target.style.display='none'" />
                 <span class="mobile-menu-text">加入我们</span>
               </li>
@@ -612,10 +522,7 @@
               </span>
 
 
-              <span @click="AI_Wo">
-                <img src="../assets/svg/space.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
-                <span>AI"我"</span>
-              </span>
+
 
 
 
@@ -666,11 +573,7 @@
 
 
               <!-- 其他功能 -->
-              <span @click="openPcGame">
-                <span>🎮</span>
-                <span>小游戏</span>
-              </span>
-              
+
               <span @click="smallMenu({ path: '/survey', query: { mode: 'question' } })">
                 <img src="../assets/svg/redPeople.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
                 <span>加入我们</span>
@@ -1704,6 +1607,28 @@ export default {
     font-size: 17px;
     height: 50px;
     line-height: 50px;
+    
+    .nav-item-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+      
+      img {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+    }
     position: relative;
     text-decoration: none;
     background: var(--gradientAnimation);
@@ -1758,6 +1683,31 @@ export default {
       width: 20px;
       height: 20px;
       margin-bottom: 2px;
+    }
+    
+    &.nav-item-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+        transform: none;
+      }
+      
+      img {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 0;
+      }
+      
+      .mobile-menu-text {
+        font-size: 10px;
+        white-space: nowrap;
+        font-weight: 500;
+      }
     }
   }
 }

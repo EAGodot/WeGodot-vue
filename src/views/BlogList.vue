@@ -38,13 +38,13 @@
             <el-button type="primary" @click="handleSearch" :disabled="searchLoading">搜索</el-button>
             <el-button @click="clearSearch" v-if="searchQuery || categoryFilter" :disabled="searchLoading">清除</el-button>
             <select v-model="categoryFilter" @change="handleCategoryChange" class="category-select">
-              <option value="">所有分類</option>
               <option value="technology">技術</option>
               <option value="life">生活</option>
               <option value="design">設計</option>
               <option value="other">其他</option>
+              <option value="">所有分類</option>
             </select>
-            <el-button type="primary" size="small" @click="createNewBlog">写博客</el-button>
+            <el-button type="primary" @click="createNewBlog">写博客</el-button>
           </div>
 
           <!-- 搜索提示 -->
@@ -2186,13 +2186,54 @@ body.dark-mode .blog-container {
   flex-wrap: wrap;
 }
 
+.toolbar .search-input,
+.toolbar .category-select {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 2px solid #e9ecef;
+  background: #fff;
+  color: #2c3e50;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.toolbar .search-input {
+  padding: 0 16px;
+  width: 300px;
+}
+
+.toolbar .search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.toolbar .category-select {
+  padding: 0 12px;
+  min-width: 140px;
+  cursor: pointer;
+  appearance: auto;
+}
+
+body.dark-mode .toolbar .search-input,
+body.dark-mode .toolbar .category-select {
+  background: #2d2d2d;
+  border-color: #404040;
+  color: #e0e0e0;
+}
+
 .search-input {
-  padding: 12px 16px;
+  padding: 0 16px;
   border: 2px solid #e9ecef;
   border-radius: 8px;
   width: 300px;
   font-size: 14px;
   transition: all 0.3s ease;
+  height: 40px;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -2202,10 +2243,12 @@ body.dark-mode .blog-container {
 }
 
 .category-select {
-  padding: 12px 15px;
+  padding: 0 12px;
   border: 2px solid #e9ecef;
   border-radius: 8px;
   font-size: 14px;
+  height: 40px;
+  box-sizing: border-box;
 }
 
 .blog-count {

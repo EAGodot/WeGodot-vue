@@ -29,6 +29,19 @@
               <el-button type="primary" size="small" @click="loadSignalImage">刷新</el-button>
             </div>
           </div>
+
+          <div class="log-container">
+            <div class="log-header">
+              <h4>📄 run_manage.log</h4>
+              <el-button type="primary" size="small" @click="loadLogContent" :loading="logLoading">刷新日志</el-button>
+            </div>
+            <div class="log-body">
+              <pre v-if="logContent" class="log-content">{{ logContent }}</pre>
+              <div v-else-if="logLoading" class="log-loading">加载中...</div>
+              <div v-else-if="logError" class="log-error">{{ logError }}</div>
+              <div v-else class="log-empty">暂无日志内容</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -42,10 +55,14 @@ export default {
     return {
       signalImageUrl: '',
       updateTime: '',
+      logContent: '',
+      logLoading: false,
+      logError: null,
     };
   },
   created() {
     this.loadSignalImage();
+    this.loadLogContent();
   },
   methods: {
     loadSignalImage() {
@@ -62,6 +79,29 @@ export default {
         position: 'top-left',
         offset: 50,
       });
+    },
+    loadLogContent() {
+      this.logLoading = true;
+      this.logError = null;
+      const timestamp = Date.now();
+      fetch(`${this.$constant.baseURL}/api/quant/log/?v=${timestamp}`)
+        .then(res => res.json())
+        .then(data => {
+          this.logLoading = false;
+          if (data.success) {
+            this.logContent = data.data.content || '暂无日志内容';
+            this.logLastModified = data.data.last_modified || '';
+          } else {
+            this.logError = data.error || '加载日志失败';
+            this.logContent = data.data?.content || this.logError;
+          }
+        })
+        .catch(err => {
+          this.logLoading = false;
+          this.logError = '请求日志失败';
+          this.logContent = '加载日志失败，请稍后重试';
+          console.error('加载日志失败:', err);
+        });
     },
   },
 };
@@ -135,6 +175,59 @@ export default {
         gap: 6px;
         i {
           color: var(--orange);
+        }
+      }
+    }
+    .log-container {
+      margin-top: 24px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--background);
+      .log-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--card-background);
+        border-bottom: 1px solid var(--border-color);
+        h4 {
+          margin: 0;
+          color: var(--fontColor);
+          font-size: 16px;
+        }
+      }
+      .log-body {
+        padding: 16px;
+        max-height: 400px;
+        overflow-y: auto;
+        .log-content {
+          margin: 0;
+          padding: 12px;
+          background: #1e1e1e;
+          color: #d4d4d4;
+          border-radius: 8px;
+          font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+          font-size: 13px;
+          line-height: 1.6;
+          white-space: pre-wrap;
+          word-break: break-all;
+          overflow-x: auto;
+        }
+        .log-loading {
+          text-align: center;
+          padding: 40px;
+          color: var(--text-muted);
+        }
+        .log-error {
+          text-align: center;
+          padding: 40px;
+          color: #dc3545;
+        }
+        .log-empty {
+          text-align: center;
+          padding: 40px;
+          color: var(--text-muted);
         }
       }
     }
