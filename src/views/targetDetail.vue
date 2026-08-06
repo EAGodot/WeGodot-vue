@@ -255,6 +255,7 @@ export default {
             });
             this.task.status = 1;
             this.task.balance = 0;
+            this.loadTask();
           } else {
             this.$notify({
               type: 'error',

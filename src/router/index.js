@@ -95,6 +95,11 @@ const routes = [
         component: () => import("../views/quant"),
       },
       {
+        path: "/myTasks",
+        name: "myTasks",
+        component: () => import("../views/myTasks"),
+      },
+      {
         path: "/message",
         name: "message",
         component: () => import("../views/message"),

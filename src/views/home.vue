@@ -116,6 +116,16 @@
                     />
                     編輯
                     </li>
+
+                    <!-- 我的任务 -->
+                    <li @click="$router.push({ path: '/myTasks' })">
+                      <img
+                        style="vertical-align: -3px; width: 14px; height: 14px;"
+                        src="../assets/svg/target.svg"
+                        @error="$event.target.style.display='none'"
+                      />
+                      <span>我的任务</span>
+                    </li>
                   </div>
                   <span slot="reference" class="el-dropdown-link">
                     <img
@@ -423,10 +433,10 @@
                 <span class="mobile-menu-text">游戏</span>
               </li>
 
-              <!-- 加入烏托邦 -->
+              <!-- 加入我们 -->
               <li @click="$router.push({ path: '/survey', query: { mode: 'question' } })">
-                <img style="vertical-align: -3px" src="../assets/svg/blog.svg" />
-                <span class="mobile-menu-text">加入烏托邦</span>
+                <img style="vertical-align: -3px; width: 20px; height: 20px;" src="../assets/svg/redPeople.svg" @error="$event.target.style.display='none'" />
+                <span class="mobile-menu-text">加入我们</span>
               </li>
             </ul>
           </div>
@@ -672,8 +682,8 @@
               </span>
               
               <span @click="smallMenu({ path: '/survey', query: { mode: 'question' } })">
-                <img src="../assets/svg/blog.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
-                <span>加入烏托邦</span>
+                <img src="../assets/svg/redPeople.svg" style="width: 14px; height: 14px; vertical-align: -2px;" />
+                <span>加入我们</span>
               </span>
 
               <!-- 设置功能 -->
