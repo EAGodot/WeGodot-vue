@@ -50,7 +50,7 @@ export default {
   methods: {
     loadSignalImage() {
       const timestamp = Date.now();
-      this.signalImageUrl = `${this.$constant.baseURL}/media/signal_table.png?v=${timestamp}`;
+      this.signalImageUrl = `${this.$constant.webURL}/media/signal_table.png?v=${timestamp}`;
       this.updateTime = new Date().toLocaleString('zh-CN');
     },
     handleImageError() {
