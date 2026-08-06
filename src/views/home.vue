@@ -288,11 +288,11 @@
                 </span>
               </li>
 
-              <!-- 加入烏托邦 -->
+              <!-- 加入我们 -->
               <li>
                 <span slot="reference" class="el-dropdown-link">
                   <li
-                    @click="                       
+                    @click="
                       $router.push({ 
                         path: '/survey', 
                         query: { mode: 'question' } 
@@ -300,10 +300,11 @@
                     "
                   >
                   <img
-                    style="vertical-align: -3px"
-                    src="../assets/svg/blog.svg"
+                    style="vertical-align: -3px; width: 20px; height: 20px;"
+                    src="../assets/svg/redPeople.svg"
+                    @error="$event.target.style.display='none'"
                   />
-                  加入烏托邦
+                  加入我们
                   </li>
                 </span>
               </li>
