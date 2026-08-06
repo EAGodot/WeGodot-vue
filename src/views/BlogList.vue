@@ -27,45 +27,16 @@
       <div v-else class="blog-content">
         <!-- 控制區域 -->
         <div class="blog-controls">
-          <div class="search-section">
-            <div class="search-input-wrapper">
-              <input 
-                v-model="searchQuery" 
-                placeholder="搜索博客標題、內容..." 
-                class="search-input"
-                @keyup.enter="handleSearch"
-                @input="clearSearchStatus"
-              />
-              <button @click="handleSearch" class="search-btn" :disabled="searchLoading">
-                <span v-if="searchLoading" class="search-loading"></span>
-                <span v-else class="search-icon">🔍</span>
-                {{ searchLoading ? '搜索中...' : '搜索' }}
-              </button>
-              <button 
-                @click="clearSearch" 
-                class="clear-btn" 
-                v-if="searchQuery || categoryFilter"
-                :disabled="searchLoading"
-              >
-                ✕ 清除
-              </button>
-            </div>
-            
-            <!-- 搜索提示 -->
-            <div v-if="hasSearchResults" class="search-tips">
-              搜索: "{{ searchQuery }}"
-              <span v-if="categoryFilter"> | 分類: {{ getCategoryLabel(categoryFilter) }}</span>
-              <span class="search-result"> • 找到 {{ filteredBlogsCount }} 篇相關文章</span>
-            </div>
-
-            <div v-else-if="searchQuery && !loading" class="search-tips no-results">
-              搜索: "{{ searchQuery }}"
-              <span v-if="categoryFilter"> | 分類: {{ getCategoryLabel(categoryFilter) }}</span>
-              <span class="search-result"> •...</span>
-            </div>
-          </div>
-
-          <div class="filter-section">
+          <div class="toolbar">
+            <input
+              v-model="searchQuery"
+              placeholder="搜索博客標題、內容..."
+              class="search-input"
+              @keyup.enter="handleSearch"
+              @input="clearSearchStatus"
+            />
+            <el-button type="primary" @click="handleSearch" :disabled="searchLoading">搜索</el-button>
+            <el-button @click="clearSearch" v-if="searchQuery || categoryFilter" :disabled="searchLoading">清除</el-button>
             <select v-model="categoryFilter" @change="handleCategoryChange" class="category-select">
               <option value="">所有分類</option>
               <option value="technology">技術</option>
@@ -73,11 +44,20 @@
               <option value="design">設計</option>
               <option value="other">其他</option>
             </select>
+            <el-button type="primary" size="small" @click="createNewBlog">写博客</el-button>
           </div>
 
-          <div class="stats-section">
-            <span class="blog-count">共 {{ totalCount }} 篇博客</span>
-            <el-button type="primary" size="small" @click="createNewBlog">写博客</el-button>
+          <!-- 搜索提示 -->
+          <div v-if="hasSearchResults" class="search-tips">
+            搜索: "{{ searchQuery }}"
+            <span v-if="categoryFilter"> | 分類: {{ getCategoryLabel(categoryFilter) }}</span>
+            <span class="search-result"> • 找到 {{ filteredBlogsCount }} 篇相關文章</span>
+          </div>
+
+          <div v-else-if="searchQuery && !loading" class="search-tips no-results">
+            搜索: "{{ searchQuery }}"
+            <span v-if="categoryFilter"> | 分類: {{ getCategoryLabel(categoryFilter) }}</span>
+            <span class="search-result"> •...</span>
           </div>
         </div>
 
@@ -2196,24 +2176,13 @@ body.dark-mode .blog-container {
 
 /* 控制區域 */
 .blog-controls {
+  margin-bottom: 20px;
+}
+
+.toolbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.search-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.search-input-wrapper {
-  display: flex;
   gap: 10px;
-  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -2232,50 +2201,17 @@ body.dark-mode .blog-container {
   outline: none;
 }
 
-.search-btn, .clear-btn {
-  padding: 12px 20px;
-  border: none;
+.category-select {
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
   border-radius: 8px;
-  cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
-.search-btn {
-  background: #007bff;
-  color: white;
-}
-
-.search-btn:hover:not(:disabled) {
-  background: #0056b3;
-  transform: translateY(-1px);
-}
-
-.search-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.clear-btn {
-  background: #6c757d;
-  color: white;
-}
-
-.clear-btn:hover:not(:disabled) {
-  background: #545b62;
-}
-
-.search-loading {
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.blog-count {
+  color: #6c757d;
+  font-size: 14px;
+  margin-right: 10px;
 }
 
 .search-tips {
@@ -2285,35 +2221,12 @@ body.dark-mode .blog-container {
   background: #f8f9fa;
   border-radius: 4px;
   display: inline-block;
+  margin-top: 10px;
 }
 
 body.dark-mode .search-tips {
   background: #2d2d2d;
   color: #a0aec0;
-}
-
-.category-select {
-  padding: 10px 15px;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.stats-section {
-  color: #6c757d;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.search-result-count {
-  color: #28a745;
-  font-weight: 500;
-}
-
-body.dark-mode .search-result-count {
-  color: #4caf50;
 }
 
 /* 博客列表 */
@@ -3541,15 +3454,6 @@ body.dark-mode .status-info {
   }
   
   .search-input {
-    width: 100%;
-  }
-  
-  .search-input-wrapper {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .search-input-wrapper .search-input {
     width: 100%;
   }
   
