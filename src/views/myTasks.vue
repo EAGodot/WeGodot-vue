@@ -147,7 +147,6 @@ export default {
       pageSize: 10,
       publishedTotal: 0,
       joinedTotal: 0,
-      currentUser: {},
       deleteDialogVisible: false,
       deleteTaskId: null,
       editAmountDialogVisible: false,
@@ -155,8 +154,12 @@ export default {
       editAmountValue: '',
     };
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.currentUser || {};
+    },
+  },
   created() {
-    this.currentUser = this.$store.state.currentUser || {};
     this.loadPublishedTasks();
     this.loadJoinedTasks();
   },
