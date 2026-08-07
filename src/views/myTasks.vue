@@ -40,6 +40,9 @@
               </div>
               <div class="task-footer">
                 <el-button type="primary" size="small" @click.stop="goToDetail(task.id)">查看详情</el-button>
+                <el-button v-if="isTaskCreator(task)" type="success" size="small" @click.stop="completeTask(task)" :disabled="task.status !== 0 || task.balance <= 0">完成任务</el-button>
+                <el-button v-if="isTaskCreator(task)" type="warning" size="small" @click.stop="showEditAmountDialog(task)">修改金额</el-button>
+                <el-button v-if="isTaskCreator(task)" type="danger" size="small" @click.stop="showDeleteDialog(task)">删除任务</el-button>
               </div>
             </div>
           </div>
@@ -107,6 +110,25 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+
+    <el-dialog title="确认删除" :visible.sync="deleteDialogVisible" width="400px">
+      <p>确定要删除这个任务吗？此操作不可撤销。</p>
+      <div slot="footer">
+        <el-button @click="deleteDialogVisible = false">取消</el-button>
+        <el-button type="danger" @click="confirmDelete">删除</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="修改金额" :visible.sync="editAmountDialogVisible" width="400px">
+      <div>
+        <p>请输入新的任务金额：</p>
+        <el-input v-model="editAmountValue" placeholder="请输入金额" type="number" step="0.01" min="0"></el-input>
+      </div>
+      <div slot="footer">
+        <el-button @click="editAmountDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="confirmEditAmount">确认修改</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -125,9 +147,16 @@ export default {
       pageSize: 10,
       publishedTotal: 0,
       joinedTotal: 0,
+      currentUser: {},
+      deleteDialogVisible: false,
+      deleteTaskId: null,
+      editAmountDialogVisible: false,
+      editAmountTaskId: null,
+      editAmountValue: '',
     };
   },
   created() {
+    this.currentUser = this.$store.state.currentUser || {};
     this.loadPublishedTasks();
     this.loadJoinedTasks();
   },
@@ -227,6 +256,138 @@ export default {
     getParticipantStatusType(statusCode) {
       const map = { 0: 'info', 1: 'warning', 2: 'success', 3: 'danger' };
       return map[statusCode] || 'info';
+    },
+    isTaskCreator(task) {
+      return this.currentUser && this.currentUser.id && task.creator_id === this.currentUser.id;
+    },
+    completeTask(task) {
+      this.$http
+        .post(this.$constant.baseURL + '/task/complete/', {
+          task_id: task.id,
+          user_id: this.currentUser.id,
+        })
+        .then((res) => {
+          if (res.result && !this.$common.isEmpty(res.result[0]) && res.result[0].code === 200) {
+            const data = res.result[0].data || {};
+            this.$notify({
+              type: 'success',
+              title: '任务已完成',
+              message: `共${data.total_participants}人，每人奖励 ¥${data.reward_per_person || 0}`,
+              position: 'top-left',
+              offset: 50,
+              duration: 4000,
+            });
+            this.loadPublishedTasks();
+          } else {
+            this.$notify({
+              type: 'error',
+              title: '操作失败',
+              message: (res.result && res.result[0] && res.result[0].message) || '未知错误',
+              position: 'top-left',
+              offset: 50,
+            });
+          }
+        })
+        .catch((error) => {
+          this.$notify({
+            type: 'error',
+            title: '操作失败',
+            message: error.message,
+            position: 'top-left',
+            offset: 50,
+          });
+        });
+    },
+    showDeleteDialog(task) {
+      this.deleteTaskId = task.id;
+      this.deleteDialogVisible = true;
+    },
+    confirmDelete() {
+      if (!this.deleteTaskId) return;
+      this.$http
+        .post(this.$constant.baseURL + '/task/delete/', {
+          task_id: this.deleteTaskId,
+          user_id: this.currentUser.id,
+        })
+        .then((res) => {
+          if (res.result && !this.$common.isEmpty(res.result[0]) && res.result[0].code === 200) {
+            this.$notify({
+              type: 'success',
+              title: '删除成功',
+              position: 'top-left',
+              offset: 50,
+            });
+            this.loadPublishedTasks();
+          } else {
+            this.$notify({
+              type: 'error',
+              title: '删除失败',
+              message: (res.result && res.result[0] && res.result[0].message) || '未知错误',
+              position: 'top-left',
+              offset: 50,
+            });
+          }
+        })
+        .catch((error) => {
+          this.$notify({
+            type: 'error',
+            title: '删除失败',
+            message: error.message,
+            position: 'top-left',
+            offset: 50,
+          });
+        })
+        .finally(() => {
+          this.deleteDialogVisible = false;
+          this.deleteTaskId = null;
+        });
+    },
+    showEditAmountDialog(task) {
+      this.editAmountTaskId = task.id;
+      this.editAmountValue = String(task.amount);
+      this.editAmountDialogVisible = true;
+    },
+    confirmEditAmount() {
+      if (!this.editAmountTaskId || this.editAmountValue === '') return;
+      this.$http
+        .post(this.$constant.baseURL + '/task/updateAmount/', {
+          task_id: this.editAmountTaskId,
+          user_id: this.currentUser.id,
+          amount: this.editAmountValue,
+        })
+        .then((res) => {
+          if (res.result && !this.$common.isEmpty(res.result[0]) && res.result[0].code === 200) {
+            this.$notify({
+              type: 'success',
+              title: '修改成功',
+              position: 'top-left',
+              offset: 50,
+            });
+            this.loadPublishedTasks();
+          } else {
+            this.$notify({
+              type: 'error',
+              title: '修改失败',
+              message: (res.result && res.result[0] && res.result[0].message) || '未知错误',
+              position: 'top-left',
+              offset: 50,
+            });
+          }
+        })
+        .catch((error) => {
+          this.$notify({
+            type: 'error',
+            title: '修改失败',
+            message: error.message,
+            position: 'top-left',
+            offset: 50,
+          });
+        })
+        .finally(() => {
+          this.editAmountDialogVisible = false;
+          this.editAmountTaskId = null;
+          this.editAmountValue = '';
+        });
     },
   },
 };
