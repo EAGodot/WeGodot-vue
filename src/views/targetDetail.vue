@@ -103,11 +103,11 @@ export default {
         .then((res) => {
           if (res.result && !this.$common.isEmpty(res.result[0])) {
             const data = res.result[0];
-            if (data.code === 200 && data.data) {
-              this.task = data.data;
-              this.isCreator = this.currentUser.id && this.currentUser.id === this.task.creator_id;
-              this.checkJoinStatus();
-            }
+              if (data.code === 200 && data.data) {
+                this.task = data.data;
+                this.isCreator = this.currentUser.id && this.currentUser.id === this.task.creator_user_id;
+                this.checkJoinStatus();
+              }
           }
         })
         .catch((error) => {

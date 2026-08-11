@@ -261,7 +261,7 @@ export default {
       return map[statusCode] || 'info';
     },
     isTaskCreator(task) {
-      return this.currentUser && this.currentUser.id && task.creator_id === this.currentUser.id;
+      return this.currentUser && this.currentUser.id && task.creator_user_id === this.currentUser.id;
     },
     completeTask(task) {
       this.$http
