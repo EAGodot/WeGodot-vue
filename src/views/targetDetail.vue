@@ -5,7 +5,10 @@
         <div class="task-card">
           <div class="task-header">
             <h2>{{ task.title }}</h2>
-            <el-tag :type="getStatusType(task.status)">{{ task.status_display }}</el-tag>
+            <div>
+              <el-tag :type="getStatusType(task.status)">{{ task.status_display }}</el-tag>
+              <el-button type="primary" size="small" icon="el-icon-refresh" @click="loadTask(); loadParticipants();" style="margin-left: 10px;">刷新</el-button>
+            </div>
           </div>
           <div class="task-body">
             <div class="task-meta-row">
@@ -42,7 +45,7 @@
           <div v-if="participants.length === 0" class="empty">暂无参与者</div>
           <div v-for="item in participants" :key="item.id" class="participant-item">
             <div class="participant-info">
-              <span class="username">{{ item.user_name || ('用户#' + item.user_id) }}</span>
+               <span class="username">{{ item.user_name }} (ID: {{ item.user_id }})</span>
               <el-tag size="small" :type="getParticipantStatusType(item.status_code)">{{ item.participant_status }}</el-tag>
             </div>
             <div class="participant-proof" v-if="item.proof">
@@ -93,7 +96,6 @@ export default {
     this.currentUser = this.$store.state.currentUser || {};
     if (this.taskId) {
       this.loadTask();
-      this.loadParticipants();
     }
   },
   methods: {
@@ -107,6 +109,9 @@ export default {
                 this.task = data.data;
                 this.isCreator = this.currentUser.id && this.currentUser.id === this.task.creator_user_id;
                 this.checkJoinStatus();
+                if (this.isCreator) {
+                  this.loadParticipants();
+                }
               }
           }
         })

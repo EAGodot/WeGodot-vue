@@ -8,6 +8,9 @@
     <div class="tabs-wrap">
       <el-tabs v-model="activeTab" @tab-click="handleTabClick">
         <el-tab-pane label="我发布的" name="published">
+          <div class="tab-toolbar">
+            <el-button type="primary" size="small" icon="el-icon-refresh" @click="refreshPublishedTasks">刷新列表</el-button>
+          </div>
           <div class="task-list">
             <div v-if="publishedLoading" class="loading">加载中...</div>
             <div v-else-if="publishedTasks.length === 0" class="empty-state">暂无发布的任务</div>
@@ -241,6 +244,9 @@ export default {
         this.loadJoinedTasks();
       }
     },
+    refreshPublishedTasks() {
+      this.loadPublishedTasks();
+    },
     handlePublishedPageChange(page) {
       this.publishedPage = page;
       this.loadPublishedTasks();
@@ -421,6 +427,11 @@ export default {
   border-radius: 12px;
   padding: 24px;
   border: 1px solid var(--border-color);
+}
+.tab-toolbar {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
 }
 .task-list {
   display: grid;
