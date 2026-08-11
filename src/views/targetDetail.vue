@@ -45,7 +45,7 @@
           <div v-if="participants.length === 0" class="empty">暂无参与者</div>
           <div v-for="item in participants" :key="item.id" class="participant-item">
             <div class="participant-info">
-               <span class="username">{{ item.user_name }} (ID: {{ item.user_id }})</span>
+               <span class="username">{{ item.user_name }}</span>
               <el-tag size="small" :type="getParticipantStatusType(item.status_code)">{{ item.participant_status }}</el-tag>
             </div>
             <div class="participant-proof" v-if="item.proof">
