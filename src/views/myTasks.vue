@@ -98,6 +98,7 @@
               </div>
               <div class="task-footer">
                 <el-button type="primary" size="small" @click.stop="goToDetail(task.id)">查看详情</el-button>
+                <el-button type="danger" size="small" @click.stop="showDeleteDialog(task)">删除任务</el-button>
               </div>
             </div>
           </div>
@@ -326,7 +327,11 @@ export default {
               position: 'top-left',
               offset: 50,
             });
-            this.loadPublishedTasks();
+            if (this.activeTab === 'joined') {
+              this.loadJoinedTasks();
+            } else {
+              this.loadPublishedTasks();
+            }
           } else {
             this.$notify({
               type: 'error',
